@@ -2,6 +2,7 @@
 import time
 import os
 import sys
+import requests
 #regionend (Imports)
 
 #regionstart (README)
@@ -25,35 +26,68 @@ import sys
       # ! No0neX is not responsible for any misuse of this tool.
       # DO NOT USE ANOTHER PERSON'S TOKEN, IT IS AGAINST DISCORD'S TERMS OF SERVICE AND CAN RESULT IN A BAN.
       # If you have any suggestions for new features, please let the developer know (Discord: d3c0mp0s1ngc0rps3)
+      # This tool is open source, you can find the source code on GitHub:https://github.com/4LT3RTH3GL1TCH3R/SimpleDiscordTools
+      # If you want to contribute to the project, feel free to fork the repository and submit a pull request.
+      # Please note that this tool is still in development and may have bugs.
+      # If you encounter any issues, please report them on the GitHub repository.
+      # Thank you for using Free Tools For Discord!
+      # Any sort
 #regionend (README)
+
+#regionstart (Strings)
+CurrentVersion = "1.0.0"
+pastebin_newest_version = "https://pastebin.com/raw/6aqEeTg8"
+#regionend (Strings)
+
+#regionstart (Backend Code)
+try:
+    response = requests.get(pastebin_newest_version)
+    response.raise_for_status()  # Raises error for 4xx or 5xx status codes
+    newest_version = response.text.strip()
+    if newest_version != CurrentVersion:
+        print(f"A new version of Free Tools For Discord is available: {newest_version}")
+        print("Please update to the latest version for the best experience.")
+        time.sleep(5)
+        sys.exit()
+except requests.exceptions.RequestException as e:
+    print(f"Failed to fetch Pastebin content:\n{e}")
+#regionend (Backend Code)
 
 #regionstart (Info)
 print("Free Tools For Discord")
 print("Made by: ! No0neX")
-print("Version: 1.0.0")
+print("Current Version: " + CurrentVersion)
+print("Contact: d3c0mp0s1ngc0rps3")
+print("There are more updates to come, please be patient.")
 time.sleep(5)
 os.system("cls")
 #regionend (Info)
 
-#regionstart (Get Token)
-print("Please input your Discord token: (You can get your token by following the instructions in the README)")
-token = input("Token: ")
-with open("token.txt", "w") as file:
-    file.write(token)
-print("Token saved to token.txt")
+#regionstart (Token Sequence)
+choice = input("Do you want to input your token? (yes if you don't already have a valid token in token.txt or to change token to use/skip if you already have a valid token in token.txt): ").strip().lower()
+if choice == "yes":
+    print("Please input your Discord token: (This is needed for some tools to function properly)")
+    token = input("Token: ")
+    with open("token.txt", "w") as file:
+        file.write(token)
+elif choice == "skip":
+    print("Skipping token input. If you have a valid token in token.txt, it will be used.")
 time.sleep(2)
 os.system("cls")
-#regionend (Get Token)
+#regionend (Token Sequence)
 
-#regionstart (Get Password)
-print("Please input your Discord password: (This is needed for some tools to function properly)")
-password = input("Password: ")
-with open("password.txt", "w") as file:
-    file.write(password)
-print("Password saved to password.txt")
+#regionstart (Password Sequence)
+choice = input("Do you want to input your password? (PASSWORD MUST BELONG TO THE ACCOUNT THAT THE TOKEN YOU PUT BELONGS TO) (yes if you don't already have a valid password in password.txt or to change password to use/skip if you already have a valid password in password.txt): ").strip().lower()
+if choice == "yes":
+    print("Please input your Discord password: (This is needed for some tools to function properly)")
+    password = input("password: ")
+    with open("password.txt", "w") as file:
+        file.write(password)
+elif choice == "skip":
+    print("Skipping password input. If you have a valid password in password.txt, it will be used.")
 time.sleep(2)
 os.system("cls")
-#regionend (Get Password)
+#regionend (Password Sequence)
 
 #regionstart (Free Tools For Discord)
 #regionstart (Change Profile Options)
@@ -75,7 +109,8 @@ print("11. View About Me")
 #regionend (Free Tools For Discord)
 
 #regionstart (Other)
-print("12. Exit")
+print("12. Updates")
+print("13. Exit")
 #regionend (Other)
 
 #regionstart (Choice Inputs)
@@ -126,6 +161,11 @@ if choice == "11":
     os.system("python MainTools/ViewAboutMe.py")
 if choice == "12":
     os.system("cls")
-    print("Exiting the tool. Thank you for using Free Tools For Discord!")
+    print("You have chosen to view updates.")
+    os.system("python MainTools/Updates.py")
+if choice == "13":
+    os.system("cls")
+    print("You have chosen to exit.")
+    print("Thank you for using Free Tools For Discord!")
     time.sleep(2)
     sys.exit()
